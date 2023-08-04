@@ -1,17 +1,20 @@
 // Função para calcular o fatorial de um número
 function calcularFatorial(numero) {
+  // Verifica se o número é 0 ou 1, pois o fatorial de 0 e 1 é sempre 1
   if (numero === 0n || numero === 1n) {
     return 1n; // Casos base: o fatorial de 0 e 1 é 1
   } else {
-    return numero * calcularFatorial(numero - 1n); // Caso geral: calcula o fatorial de forma recursiva
+    // Caso geral: utiliza a recursão para calcular o fatorial de forma eficiente
+    return numero * calcularFatorial(numero - 1n);
   }
 }
 
 // Converte o resultado do fatorial para notação científica
 function formatarNotacaoCientifica(fatorial) {
   const fatorialStr = fatorial.toString();
+  // Separa o primeiro dígito (mantissa) e os próximos 15 dígitos
   const mantissa = fatorialStr.slice(0, 1) + '.' + fatorialStr.slice(1, 16);
-  const expoente = fatorialStr.length - 1;
+  const expoente = fatorialStr.length - 1; // Calcula o expoente da notação científica
   return mantissa + 'e' + expoente;
 }
 
@@ -28,10 +31,10 @@ readline.question('Digite um número para calcular o fatorial: ', (numero) => {
   if (Number.isNaN(Number(numero)) || numero < 0n) {
     console.log('Por favor, insira um número inteiro positivo.');
   } else {
-    const fatorial = calcularFatorial(numero);
-    const resultadoFormatado = formatarNotacaoCientifica(fatorial);
+    const fatorial = calcularFatorial(numero); // Calcula o fatorial do número
+    const resultadoFormatado = formatarNotacaoCientifica(fatorial); // Formata o resultado em notação científica
     console.log(`O fatorial de ${numero} é: ${resultadoFormatado}`);
   }
 
-  readline.close();
+  readline.close(); // Fecha a interface readline após a execução do programa
 });

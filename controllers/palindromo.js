@@ -1,40 +1,35 @@
-// Função para calcular o fatorial de um número
-function calcularFatorial(numero) {
-  // Verifica se o número é 0 ou 1, pois o fatorial de 0 e 1 é sempre 1
-  if (numero === 0n || numero === 1n) {
-    return 1n; // Casos base: o fatorial de 0 e 1 é 1
-  } else {
-    // Caso geral: utiliza a recursão para calcular o fatorial de forma eficiente
-    return numero * calcularFatorial(numero - 1n);
-  }
+// Importar o módulo 'readline' para lidar com a leitura de entrada do usuário
+const readline = require('readline');
+
+// Função para verificar se a palavra é um palíndromo
+function polindromo(palavra) {
+  // Limpar a palavra removendo espaços e caracteres especiais, e transformar em minúsculas
+  const palavraLimpa = palavra.toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
+
+  // Reverter a palavra
+  const palavraRevertida = palavraLimpa.split('').reverse().join('');
+
+  // Verificar se a palavra limpa é igual à palavra revertida
+  return palavraLimpa === palavraRevertida;
 }
 
-// Converte o resultado do fatorial para notação científica
-function formatarNotacaoCientifica(fatorial) {
-  const fatorialStr = fatorial.toString();
-  // Separa o primeiro dígito (mantissa) e os próximos 15 dígitos
-  const mantissa = fatorialStr.slice(0, 1) + '.' + fatorialStr.slice(1, 16);
-  const expoente = fatorialStr.length - 1; // Calcula o expoente da notação científica
-  return mantissa + 'e' + expoente;
-}
-
-// Programa para obter o número do usuário e calcular o fatorial
-const readline = require('readline').createInterface({
-  input: process.stdin,
-  output: process.stdout
+// Criar uma interface de leitura de linha
+const rl = readline.createInterface({
+  input: process.stdin,   // Define a entrada padrão como o console (stdin)
+  output: process.stdout  // Define a saída padrão como o console (stdout)
 });
 
-readline.question('Digite um número para calcular o fatorial: ', (numero) => {
-  // Verificar se o usuário inseriu um número válido
-  numero = BigInt(numero); // Converte a entrada para BigInt
+// Pedir ao usuário para digitar uma palavra
+rl.question('Digite uma palavra: ', (palavra) => {
+  // Quando o usuário insere a palavra, a função de callback é acionada, recebendo o valor digitado como 'palavra'
 
-  if (Number.isNaN(Number(numero)) || numero < 0n) {
-    console.log('Por favor, insira um número inteiro positivo.');
+  // Verificar se a palavra é um palíndromo usando a função 'Palíndromo'
+  if (polindromo(palavra)) {
+    console.log(`${palavra} é um palíndromo.`); // Exibir mensagem se a palavra é um palíndromo
   } else {
-    const fatorial = calcularFatorial(numero); // Calcula o fatorial do número
-    const resultadoFormatado = formatarNotacaoCientifica(fatorial); // Formata o resultado em notação científica
-    console.log(`O fatorial de ${numero} é: ${resultadoFormatado}`);
+    console.log(`${palavra} não é um palíndromo.`); // Exibir mensagem se a palavra não é um palíndromo
   }
 
-  readline.close(); // Fecha a interface readline após a execução do programa
+  // Fechar a interface de leitura de linha para permitir que o programa termine corretamente
+  rl.close();
 });
